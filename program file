@@ -1,0 +1,28 @@
+// index.js
+const fs = require('fs');
+
+// Function to execute JavaScript code from a file
+function executeCode(filePath) {
+  fs.readFile(filePath, 'utf8', (err, code) => {
+    if (err) {
+      console.error(`Error reading file: ${err.message}`);
+      return;
+    }
+
+    try {
+      // Create a new function with the code and execute it
+      new Function(code)();
+    } catch (e) {
+      console.error(`Error executing code: ${e.message}`);
+    }
+  });
+}
+
+// Ensure a file path is provided
+if (process.argv.length < 3) {
+  console.error('Please provide a JavaScript file to execute.');
+  process.exit(1);
+}
+
+const filePath = process.argv[2];
+executeCode(filePath);
